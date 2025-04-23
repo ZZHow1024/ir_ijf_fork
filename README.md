@@ -1,9 +1,11 @@
-# 《信息检索与搜索引擎》课程示例工程
+# 工程说明
 
-## 1 说明  
-本工程是北京信息科技大学计算机学院《信息检索与搜索引擎》课程示例工程，仅用于教学目的。
+本工程在 [ZXJC-niusile/ir_ijf](https://github.com/ZXJC-niusile/ir_ijf) 和 [ir_demo](https://github.com/ruoyu-chen/ir_demo) 的基础上实现了对 [IJF](https://www.ijf.org/) 的适配
 
-## 2. 软件包说明  
+**仅用于学习和研究使用！**
+
+# 软件包说明
+
 开发语言：Java 11  
 第三方库依赖：  
 （1）Lucene(8.11.1，用于构建索引和执行检索)  
