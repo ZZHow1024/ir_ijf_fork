@@ -65,7 +65,7 @@ public class IdxService implements DisposableBean {
         try {
             writer.updateDocument(new Term(idFld, id), doc);
             writer.commit();
-            log.info("成功将ID为[{}]的文档加入索引", id);
+            log.info("成功将ID为[{}]的柔道家信息加入索引", id);
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -84,7 +84,7 @@ public class IdxService implements DisposableBean {
         DirectoryReader reader = DirectoryReader.open(writer);
         IndexSearcher searcher = new IndexSearcher(reader);
         Analyzer analyzer = DEFAULT_ANALYZER.getConstructor().newInstance();
-        QueryParser parser = new QueryParser("TITLE", analyzer);
+        QueryParser parser = new QueryParser("NAME", analyzer);
         Query query = parser.parse(kw);
         TopDocs docs =searcher.search(query, 10);
         ScoreDoc[] hits = docs.scoreDocs;
