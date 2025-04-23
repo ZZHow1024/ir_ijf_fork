@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.pipeline.JsonFilePipeline;
+import us.codecraft.webmagic.scheduler.PriorityScheduler;
 
 import javax.annotation.PostConstruct;
 
@@ -46,7 +47,7 @@ public class CrawlerService{
 
         if(this.spider != null){
             if(!Stopped.equals(this.spider.getStatus())){
-                //如果spider成员不为空，并且状态不是 Stopped，则不可以启动新的爬虫
+                // 如果spider成员不为空，并且状态不是 Stopped，则不可以启动新的爬虫
                 log.error("当前有正在运行的爬虫对象，不可以创建新的爬虫");
                 return;
             }
@@ -59,6 +60,7 @@ public class CrawlerService{
         this.spider = Spider.create(new IjfCrawler(site));
         spider.addPipeline(new LucenePipeline(idxService));
         spider.addPipeline(new JsonFilePipeline(config.getCrawler()));
+        spider.setScheduler(new PriorityScheduler());
         spider.thread(1);
         spider.addUrl(startPage);
         spider.runAsync();

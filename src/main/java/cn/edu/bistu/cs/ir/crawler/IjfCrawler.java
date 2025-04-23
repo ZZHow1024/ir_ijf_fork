@@ -5,6 +5,7 @@ import cn.edu.bistu.cs.ir.model.Player;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.codecraft.webmagic.Page;
+import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.processor.PageProcessor;
 
@@ -44,7 +45,11 @@ public class IjfCrawler implements PageProcessor {
 
             for (String location : locations) {
                 String req = String.format("https://www.ijf.org/judoka?nation=%s&gender=both&category=all", location);
-                page.addTargetRequest(req);
+
+                Request lowPriorityRequest = new Request(req);
+                lowPriorityRequest.setPriority(5);
+
+                page.addTargetRequest(lowPriorityRequest);
             }
 
             page.setSkip(true);
@@ -56,7 +61,11 @@ public class IjfCrawler implements PageProcessor {
 
             for (String judoka : judokas) {
                 String req = String.format("https://www.ijf.org/judoka/%s", judoka.replace("/judoka/", ""));
-                page.addTargetRequest(req);
+
+                Request highPriorityRequest = new Request(req);
+                highPriorityRequest.setPriority(1);
+
+                page.addTargetRequest(highPriorityRequest);
             }
 
             page.setSkip(true);
