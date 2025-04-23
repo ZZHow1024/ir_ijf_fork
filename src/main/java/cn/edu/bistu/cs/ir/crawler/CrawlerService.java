@@ -39,15 +39,12 @@ public class CrawlerService{
 
 
     /**
-     * 启动面向博客园的爬虫
-     * @param blogger 待爬取的博主ID
+     * 启动面向国际柔道联盟的爬虫
+     * @param blogger 待爬取的运动员ID
      */
     public void startCnBlogCrawler(String blogger) {
-        if(StringUtil.isEmpty(blogger)){
-            log.error("博主的唯一ID不可以为空");
-            return;
-        }
-        String startPage = String.format("https://www.cnblogs.com/%s/default.html?page=2", blogger);
+        String startPage = "https://www.ijf.org/judoka";
+
         if(this.spider != null){
             if(!Stopped.equals(this.spider.getStatus())){
                 //如果spider成员不为空，并且状态不是 Stopped，则不可以启动新的爬虫
@@ -60,20 +57,20 @@ public class CrawlerService{
                 .setRetryTimes(config.getRetryTimes())
                 .setSleepTime(config.getSleepTime())
                 .setUserAgent(config.getAgent());
-        this.spider = Spider.create(new CnBlogsCrawler(site, blogger));
+        this.spider = Spider.create(new IjfCrawler(site));
         spider.addPipeline(new LucenePipeline(idxService));
         spider.addPipeline(new JsonFilePipeline(config.getCrawler()));
         spider.thread(1);
         spider.addUrl(startPage);
         spider.runAsync();
-        log.info("启动面向博客园的爬虫，抓取博主ID为[{}]的作者的文章", blogger);
+        log.info("启动面向国际柔道联盟的爬虫，抓取选手ID为[{}]的柔道选手的信息", blogger);
     }
 
     @PostConstruct
     public void init(){
         if(config.isStartCrawler()){
             log.info("系统配置信息中[startCrawler]配置项为true，启动爬虫的运行");
-            startCnBlogCrawler("tencent-cloud-native");
+            startCnBlogCrawler("all_male");
         }
     }
 }

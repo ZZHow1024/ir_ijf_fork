@@ -20,7 +20,7 @@ import java.util.List;
  * 例如：<a href="https://www.cnblogs.com/tencent-cloud-native/">腾讯云原生</a>
  * @author chenruoyu
  */
-public class CnBlogsCrawler implements PageProcessor {
+public class CnBlogsCrawlerBackup implements PageProcessor {
 
 
     private final Site site;
@@ -30,7 +30,7 @@ public class CnBlogsCrawler implements PageProcessor {
      */
     private final String bloggerId;
 
-    private static final Logger log = LoggerFactory.getLogger(CnBlogsCrawler.class);
+    private static final Logger log = LoggerFactory.getLogger(CnBlogsCrawlerBackup.class);
 
     public static final String RESULT_ITEM_KEY = "BLOG_INFO";
 
@@ -45,7 +45,7 @@ public class CnBlogsCrawler implements PageProcessor {
     private final String blog_prefix;
 
 
-    public CnBlogsCrawler(Site site, String bloggerId){
+    public CnBlogsCrawlerBackup(Site site, String bloggerId){
         this.site = site;
         this.bloggerId = bloggerId;
         //https://www.cnblogs.com/tencent-cloud-native/default.html?page=1
@@ -62,8 +62,11 @@ public class CnBlogsCrawler implements PageProcessor {
         String url = page.getRequest().getUrl();
         if(url.startsWith(list_prefix)){
             log.info("解析博客目录页[{}]", url);
-            List<String> blogs = page.getHtml().xpath("//div[@class='forFlow']//div[@class='postTitle']/a/@href").all();
-            log.info("获取博文内容页地址[{}]条", blogs.size());
+
+//            List<String> blogs = page.getHtml().xpath("//div[@class='forFlow']//div[@class='postTitle']/a/@href").all();
+            List<String> blogs = page.getHtml().xpath("//div[@class='results-holder']//td[@class='name']/a/@href").all();
+
+            log.info("获取运动员内容页地址[{}]条", blogs.size());
             page.addTargetRequests(blogs);
             //TODO 请大家思考如何添加其他博客目录页的地址?需要解析博客目录页最底部的导航栏
             //setSkip方法可以跳过后续的Pipeline的处理

@@ -16,6 +16,7 @@ import java.util.*;
 /**
  * 面向检索服务接口的控制器类
  * Restful Web Services/Rest风格的Web服务
+ *
  * @author chenruoyu
  */
 @RestController
@@ -27,7 +28,7 @@ public class QueryController {
 
     private final IdxService idxService;
 
-    public QueryController(@Autowired IdxService idxService){
+    public QueryController(@Autowired IdxService idxService) {
         this.idxService = idxService;
     }
 
@@ -36,24 +37,30 @@ public class QueryController {
      * 根据关键词对索引进行分页检索，
      * 根据页号和页面大小，
      * 返回指定页的数据记录
-     * @param kw 待检索的关键词
-     * @param pageNo 页号，默认为1
+     *
+     * @param kw       待检索的关键词
+     * @param pageNo   页号，默认为1
      * @param pageSize 页的大小，默认为10
      * @return 检索得到的结果记录，以<页面ID, 页面标题>二元组的形式返回
      */
     @GetMapping(value = "/kw", produces = "application/json;charset=UTF-8")
     public QueryResponse<List<Map<String, String>>> queryByKw(@RequestParam(name = "kw") String kw,
-                                                                    @RequestParam(name = "pageNo", defaultValue = "1") int pageNo,
-                                                                    @RequestParam(name = "pageSize", defaultValue = "10") int pageSize){
+                                                              @RequestParam(name = "pageNo", defaultValue = "1") int pageNo,
+                                                              @RequestParam(name = "pageSize", defaultValue = "10") int pageSize) {
         try {
             //TODO 请大家思考如何在queryByKw函数中添加分页参数
             List<Document> docs = idxService.queryByKw(kw);
             List<Map<String, String>> results = new ArrayList<>();
-            for(Document doc : docs){
-                Map<String, String> record = new HashMap<>(2);
+            for (Document doc : docs) {
+                Map<String, String> record = new HashMap<>();
                 record.put("ID", doc.get("ID"));
-                record.put("TITLE", doc.get("TITLE"));
-                record.put("TIME", doc.get("TIME_STORE"));
+                record.put("NAME", doc.get("NAME"));
+                record.put("AGE", doc.get("AGE"));
+                record.put("IMAGE", doc.get("IMAGE"));
+                record.put("LOCATION", doc.get("LOCATION"));
+                record.put("LOCATION_ICON", doc.get("LOCATION_ICON"));
+                record.put("KG", doc.get("KG"));
+
                 results.add(record);
             }
             return QueryResponse.genSucc("检索成功", results);
