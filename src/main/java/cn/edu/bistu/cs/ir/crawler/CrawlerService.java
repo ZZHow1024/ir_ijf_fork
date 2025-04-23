@@ -3,7 +3,6 @@ package cn.edu.bistu.cs.ir.crawler;
 import cn.edu.bistu.cs.ir.config.Config;
 import cn.edu.bistu.cs.ir.index.IdxService;
 import cn.edu.bistu.cs.ir.index.LucenePipeline;
-import cn.edu.bistu.cs.ir.utils.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

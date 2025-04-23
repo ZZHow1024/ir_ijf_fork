@@ -1,30 +1,21 @@
 package cn.edu.bistu.cs.ir.crawler;
 
-import cn.edu.bistu.cs.ir.model.Blog;
-import cn.edu.bistu.cs.ir.model.BlogStats;
+
 import cn.edu.bistu.cs.ir.model.Player;
-import cn.edu.bistu.cs.ir.utils.HttpUtils;
-import cn.edu.bistu.cs.ir.utils.StringUtil;
-import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.processor.PageProcessor;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Objects;
 
 /**
- * 面向博客园（cnblogs.com）的爬虫
- * 例如：<a href="https://www.cnblogs.com/tencent-cloud-native/">腾讯云原生</a>
- *
- * @author chenruoyu
+ * 面向国际柔道联盟（<a href="https://www.ijf.org/">国际柔道联盟</a>）的爬虫
  */
 public class IjfCrawler implements PageProcessor {
-
 
     private final Site site;
 
@@ -43,9 +34,8 @@ public class IjfCrawler implements PageProcessor {
 
     @Override
     public void process(Page page) {
-        //url里存储的是请求页面的URL地址
+        // url里存储的是请求页面的URL地址
         String url = page.getRequest().getUrl();
-        //https://www.ijf.org/judoka?nation=QAT&gender=both&category=all
 
         if (Objects.equals(JUDOKA, url)) {
             log.info("解析地区代码页[{}]", url);

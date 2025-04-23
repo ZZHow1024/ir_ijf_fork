@@ -1,7 +1,6 @@
 package cn.edu.bistu.cs.ir.index;
 
-import cn.edu.bistu.cs.ir.crawler.SinaBlogCrawler;
-import cn.edu.bistu.cs.ir.model.Blog;
+import cn.edu.bistu.cs.ir.crawler.IjfCrawler;
 import cn.edu.bistu.cs.ir.model.Player;
 import org.apache.lucene.document.*;
 import org.slf4j.Logger;
@@ -29,7 +28,7 @@ public class LucenePipeline implements Pipeline {
 
     @Override
     public void process(ResultItems resultItems, Task task) {
-        Player player = resultItems.get(SinaBlogCrawler.RESULT_ITEM_KEY);
+        Player player = resultItems.get(IjfCrawler.RESULT_ITEM_KEY);
         if (player == null) {
             log.error("无法从爬取的结果中提取到Player对象");
             return;
